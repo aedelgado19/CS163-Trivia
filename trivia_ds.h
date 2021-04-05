@@ -1,0 +1,56 @@
+/* Author: Allison Delgado
+   Class: CS 163 Spring 2021
+   trivia.h contains the structures needed for nodes and their data
+   in this data structure
+ */
+#include <iostream>
+
+struct trivia {
+  char* question;
+  char* answer;
+  bool is_used;
+};
+
+struct category_node {
+  char* category_name;
+  category_node* next;
+};
+
+struct trivia_node {
+  trivia details;
+  trivia_node* next;  
+};
+
+//all int return functions return 1 if successful, 0 if not
+class trivia {
+public:
+  trivia(); //task 1: constructor
+  ~trivia(); //task 2: destructor
+
+  //task 3: add a trivia question
+  int add_trivia(char* category_name, char* question, char* answer);
+  
+  //task 4: display questions from a particular category
+  int display_category(category_node* head);
+
+  //task 5: display ALL questions
+  int display_all(category_node* head);
+
+  //task 6: remove a category of questions
+  int remove_category(char* category_name, category_node* head);
+
+  //task 7: select a trivia question
+  int select_question(char* category_name); //also displays question
+  int set_used(bool is_used);
+  
+  //task 8: check answer (return true if correct, false otherwise)
+  bool check_answer(trivia_node* current_question, char* user_answer);
+
+  //functions to create linked list
+  int set_next_category(category_node* next);
+  int set_next_trivia(trivia_node* next);
+    
+private:
+  
+
+};
