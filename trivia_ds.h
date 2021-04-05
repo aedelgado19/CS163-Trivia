@@ -5,25 +5,30 @@
  */
 #include <iostream>
 
+//trivia is the data for the trivia_node
 struct trivia {
   char* question;
   char* answer;
   bool is_used;
 };
 
+//a category node points to another category node of a different category
+//ex: history points to art
 struct category_node {
   char* category_name;
   category_node* next;
+  trivia_node* head;
 };
 
+//a trivia node points to another trivia node of the SAME category
 struct trivia_node {
   trivia details;
   trivia_node* next;  
 };
 
-//all int return functions return 1 if successful, 0 if not
+//all int return type functions return 1 if successful, 0 if not
 class trivia {
-public:
+ public:
   trivia(); //task 1: constructor
   ~trivia(); //task 2: destructor
 
@@ -46,11 +51,11 @@ public:
   //task 8: check answer (return true if correct, false otherwise)
   bool check_answer(trivia_node* current_question, char* user_answer);
 
-  //functions to create linked list
+  //these are functions to create the linked lists
   int set_next_category(category_node* next);
   int set_next_trivia(trivia_node* next);
     
-private:
-  
+ private:
+  category_node* head;
 
 };
