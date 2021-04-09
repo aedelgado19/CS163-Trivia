@@ -8,7 +8,7 @@
 #include <cstring>
 using namespace std;
 
-void print_error_messages(int success, char* function_name);
+void print_error_messages(int success, char function_name[]);
 
 /* main prompts the user for input
    and passes the input to public member functions.
@@ -21,7 +21,7 @@ int main(){
   char question[40];
   char answer[40];
   cout << "Welcome to Trivia Questions!" << endl;
-  cout << "Type 'help' anytime to see possible commands." << endl;
+  cout << "Type 'help' to see possible commands." << endl;
 
   while(strcmp(input, "q") != 0){ //while the user hasn't commanded program to quit
     cout << "> ";
@@ -93,7 +93,7 @@ int main(){
    inputs: integer success, name of function
    outputs: print error message if necessary
  */
-void print_error_messages(int success, char* function_name){
+void print_error_messages(int success, char function_name[]){
   if(success == 1){ //1 returns a successful function
     return;
   } else { //anything else means failure

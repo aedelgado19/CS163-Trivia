@@ -8,25 +8,39 @@
 #include <cstring>
 using namespace std;
 
+//constructor for trivia node
+trivia_node::trivia_node(){
+  next = NULL;
+  question = new char;
+  answer = new char;
+  is_used = false;
+}
+
+//constructor for category node
+category_node::category_node(){
+  category_name = new char;
+  next = NULL;
+  trivia_head = NULL;
+}
+
 //task 1: constructor
 trivia::trivia(){
   head = NULL;
-  
 }
 
 //task 2: destructor
 trivia::~trivia(){
   category_node* current_cat = head;
-  while (current_cat != NULL){
+  while (current_cat != NULL){ //traverse category list
     category_node* next_cat = current_cat->next;
-    trivia_node* current_triv = current_cat->trivia_head;
-    while(current_triv != NULL){
+    trivia_node* current_triv = current_cat->trivia_head; //find any attached trivia nodes
+    while(current_triv != NULL){ //traverse trivia list and delete trivia ndoes
       trivia_node* next_triv = current_triv->next;
       delete current_triv;
       current_triv = next_triv;
     }
-    delete current_cat;
-    current_cat = next_cat;
+    delete current_cat; //delete category node
+    current_cat = next_cat; //update category node to its next to keep traversing
   }
   head = NULL;
 }
@@ -36,10 +50,8 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
   bool exists = false; //flag used to see if category exists or not
   category_node* current_cat = head;
   trivia_node* current_triv = NULL;
-
-  cout << "adding. " << endl;
+  
   if(head == NULL){ //if head is null, set head to the new category
-    cout << "head is null." << endl;
     category_node* new_category = new category_node();
     head = new_category;
     strcpy(new_category->category_name, category_name);
@@ -51,6 +63,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
     strcpy(new_trivia->answer, answer);
     new_trivia->next = NULL;
     new_trivia->is_used = false;
+    cout << "success type 1" << endl;
     return 1; //success!
   }
   // if the head is NOT null, there are 2 cases:
@@ -59,11 +72,18 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
   else { 
     //first traverse list to see if category already exists
     while(current_cat->next != NULL){
-      cout << "in while of cases" << endl;
       exists = true;
       current_cat = current_cat->next;
       if(strcmp(current_cat->category_name, category_name) == 0){ //CASE 1: found a match
-	cout << "found a matching category: " << current_cat->category_name << endl;
+
+
+	cout << "1: got in here with: " << current_cat->category_name << endl;
+	cout << "1: question of this node: " << current_cat->trivia_head->question << endl;
+	cout << "1: answer of this node: " << current_cat->trivia_head->answer << endl;
+	cout << "1: here's the head: " << head->category_name << endl;
+	cout << "1: here's the head's next: " << head->next << endl;
+
+
 	//traverse trivia nodes to add to end
 	current_triv = current_cat->trivia_head;
 	while(current_triv->next != NULL){
@@ -76,13 +96,17 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
 	strcpy(new_trivia->answer, answer);
 	new_trivia->next = NULL;
 	new_trivia->is_used = false;
+	cout << "success type 2" << endl;
 	return 1; //success!
       }
     }
-    cout << " out of while" << endl;
     if(exists == false){ //CASE 2 (did not find a matching category in the traversal)
       //traverse categories to find end of list
-      cout << "case 2" << endl;
+      cout << "2: got in here with: " << current_cat->category_name << endl;
+      cout << "2: question of this node: " << current_cat->trivia_head->question << endl;
+      cout << "2: answer of this node: " << current_cat->trivia_head->answer << endl;
+      cout << "2: here's the head: " << head->category_name << endl;
+      cout << "2: here's the head's next: " << head->next << endl;
       while(current_cat->next != NULL){
 	current_cat = current_cat->next;
       }
@@ -96,9 +120,16 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
       strcpy(new_trivia->answer, answer);
       new_trivia->next = NULL;
       new_trivia->is_used = false;
+      cout << "success type 3" << endl;
       return 1; //success!
     }
   }
+  cout << "ape" << endl;
+  cout << "bad: got in here with: " << current_cat->category_name << endl;
+  cout << "bad: question of this node: " << current_cat->trivia_head->question << endl;
+  cout << "bad: answer of this node: " << current_cat->trivia_head->answer << endl;
+  cout << "bad: here's the head: " << head->category_name << endl;
+  cout << "bad: here's the head's next: " << head->next << endl;
   return 0; //function failure
 }
 

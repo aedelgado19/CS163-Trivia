@@ -7,19 +7,21 @@
 
 //a trivia node points to another trivia node of the SAME category
 struct trivia_node {
-  trivia_node* next = NULL;
-  char* question = new char;
-  char* answer = new char;
-  bool is_used = false;
+  trivia_node(); //constructor for trivia node
+  trivia_node* next;
+  char* question;
+  char* answer;
+  bool is_used;
 
 };
  
 //a category node points to another category node of a different category
 //ex: history points to art
 struct category_node {
-  char* category_name = new char;
-  category_node* next = NULL;
-  trivia_node* trivia_head = NULL;
+  category_node(); //constructor for category node
+  char* category_name;
+  category_node* next;
+  trivia_node* trivia_head;
 };
 
 
@@ -28,7 +30,7 @@ class trivia {
  public:
   trivia(); //task 1: constructor
   ~trivia(); //task 2: destructor
-
+  
   //task 3: add a trivia question
   int add_trivia(char* category_name, char* question, char* answer);
   
