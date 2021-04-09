@@ -11,6 +11,7 @@ using namespace std;
 bool check_valid(char input[]);
 
 int main(){
+  trivia* newtrivia = new trivia();
   char input[20];
   char category[20];
   char question[40];
@@ -39,7 +40,6 @@ int main(){
     }
 
     if(strcmp(input, "add") == 0){
-      trivia* newtrivia = new trivia();
       cout << "Enter the category of this trivia question." << endl;
       cout << "> ";
       cin.get(category, 20);

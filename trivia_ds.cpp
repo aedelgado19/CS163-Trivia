@@ -11,13 +11,14 @@ using namespace std;
 
 //task 1: constructor
 trivia::trivia(){
-
-
+  head = NULL;
+  
 }
 
 //task 2: deconstructor
 trivia::~trivia(){
-
+  
+  
 }
 
 //task 3: add a trivia question
@@ -25,27 +26,21 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
   bool exists = false; //flag used to see if category exists or not
   category_node* current_cat = head;
   trivia_node* current_triv = NULL;
-  cout << "here" << endl;
+
+  cout << "adding. " << endl;
   if(head == NULL){ //if head is null, set head to the new category
-    cout << "head is null" << endl;
+    cout << "head is null." << endl;
     category_node* new_category = new category_node();
     head = new_category;
-    cout << "e" << endl;
-    cout << "cat name: " << category_name << endl;
-    cout << "struct: " << new_category->category_name << endl;
     strcpy(new_category->category_name, category_name);
-    cout << "a" << endl;
     new_category->next = NULL;
     //create a new trivia node and add data
     trivia_node* new_trivia = new trivia_node(); 
-    cout << "b" << endl;
     new_category->trivia_head = new_trivia; //link up category node to trivia node
     strcpy(new_trivia->question, question);
     strcpy(new_trivia->answer, answer);
-    cout << "c" << endl;
     new_trivia->next = NULL;
     new_trivia->is_used = false;
-    cout << "p" << endl;
     return 1; //success!
   }
   // if the head is NOT null, there are 2 cases:
@@ -54,6 +49,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
   else { 
     //first traverse list to see if category already exists
     while(current_cat->next != NULL){
+      cout << "in while of cases" << endl;
       exists = true;
       current_cat = current_cat->next;
       if(strcmp(current_cat->category_name, category_name) == 0){ //CASE 1: found a match
@@ -73,8 +69,10 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
 	return 1; //success!
       }
     }
+    cout << " out of while" << endl;
     if(exists == false){ //CASE 2 (did not find a matching category in the traversal)
       //traverse categories to find end of list
+      cout << "case 2" << endl;
       while(current_cat->next != NULL){
 	current_cat = current_cat->next;
       }

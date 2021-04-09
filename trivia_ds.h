@@ -7,19 +7,19 @@
 
 //a trivia node points to another trivia node of the SAME category
 struct trivia_node {
-  trivia_node* next;
-  char* question;
-  char* answer;
-  bool is_used;
+  trivia_node* next = NULL;
+  char* question = new char;
+  char* answer = new char;
+  bool is_used = false;
 
 };
  
 //a category node points to another category node of a different category
 //ex: history points to art
 struct category_node {
-  char* category_name;
-  category_node* next;
-  trivia_node* trivia_head;
+  char* category_name = new char;
+  category_node* next = NULL;
+  trivia_node* trivia_head = NULL;
 };
 
 
