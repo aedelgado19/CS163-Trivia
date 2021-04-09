@@ -6,10 +6,16 @@
 #include <iostream>
 
 //trivia is the data for the trivia_node
-struct trivia {
+struct trivia_data {
   char* question;
   char* answer;
   bool is_used;
+};
+
+//a trivia node points to another trivia node of the SAME category
+struct trivia_node {
+  trivia_data details;
+  trivia_node* next;  
 };
 
 //a category node points to another category node of a different category
@@ -20,11 +26,6 @@ struct category_node {
   trivia_node* head;
 };
 
-//a trivia node points to another trivia node of the SAME category
-struct trivia_node {
-  trivia details;
-  trivia_node* next;  
-};
 
 //all int return type functions return 1 if successful, 0 if not
 class trivia {
