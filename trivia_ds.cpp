@@ -25,19 +25,27 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
   bool exists = false; //flag used to see if category exists or not
   category_node* current_cat = head;
   trivia_node* current_triv = NULL;
-
+  cout << "here" << endl;
   if(head == NULL){ //if head is null, set head to the new category
+    cout << "head is null" << endl;
     category_node* new_category = new category_node();
     head = new_category;
+    cout << "e" << endl;
+    cout << "cat name: " << category_name << endl;
+    cout << "struct: " << new_category->category_name << endl;
     strcpy(new_category->category_name, category_name);
+    cout << "a" << endl;
     new_category->next = NULL;
     //create a new trivia node and add data
     trivia_node* new_trivia = new trivia_node(); 
+    cout << "b" << endl;
     new_category->trivia_head = new_trivia; //link up category node to trivia node
     strcpy(new_trivia->question, question);
     strcpy(new_trivia->answer, answer);
+    cout << "c" << endl;
     new_trivia->next = NULL;
     new_trivia->is_used = false;
+    cout << "p" << endl;
     return 1; //success!
   }
   // if the head is NOT null, there are 2 cases:
@@ -87,36 +95,33 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
 }
 
 //task 4: display questions from a particular category                
-int trivia::display_category(category_node* head){
+int trivia::display_category(){
 
   return 0;
 }
 
 //task 5: display ALL questions                                       
-int trivia::display_all(category_node* head){
+int trivia::display_all(){
 
   return 0;
 }
 
 //task 6: remove a category of questions                              
-int trivia::remove_category(char* category_name, category_node* head){
+int trivia::remove_category(char* category_name){
 
   return 0;
 }
 
 //task 7: select a trivia question                                    
-int trivia::select_question(char* category_name){ //also displays question
+int trivia::select_question(char* category_name){
+  //make sure to call display_category
 
   return 0;
 }
 
-int trivia::set_used(bool is_used){
-
-  return 0;
-}
 
 //task 8: check answer (return true if correct, false otherwise)      
-bool trivia::check_answer(trivia_node* current_question, char* user_answer){
+bool trivia::check_answer(char* user_question, char* user_answer){
 
   return true;
 }

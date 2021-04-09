@@ -39,6 +39,7 @@ int main(){
     }
 
     if(strcmp(input, "add") == 0){
+      trivia* newtrivia = new trivia();
       cout << "Enter the category of this trivia question." << endl;
       cout << "> ";
       cin.get(category, 20);
@@ -51,7 +52,7 @@ int main(){
       cout << "> ";
       cin.get(answer, 40);
       cin.get();
-      trivia->add_trivia(category, question, answer);
+      newtrivia->add_trivia(category, question, answer);
     }
     
     if(strcmp(input, "dcat") == 0){

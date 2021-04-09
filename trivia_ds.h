@@ -33,25 +33,20 @@ class trivia {
   int add_trivia(char* category_name, char* question, char* answer);
   
   //task 4: display questions from a particular category
-  int display_category(category_node* head);
+  int display_category();
 
   //task 5: display ALL questions
-  int display_all(category_node* head);
+  int display_all();
 
   //task 6: remove a category of questions
-  int remove_category(char* category_name, category_node* head);
+  int remove_category(char* category_name);
 
   //task 7: select a trivia question
-  int select_question(char* category_name); //also displays question
-  int set_used(bool is_used);
+  int select_question(char* category_name);
   
   //task 8: check answer (return true if correct, false otherwise)
-  bool check_answer(trivia_node* current_question, char* user_answer);
+  bool check_answer(char* user_question, char* user_answer);
 
-  //these are functions to create the linked lists
-  int set_next_category(category_node* next);
-  int set_next_trivia(trivia_node* next);
-    
  private:
   category_node* head;
 
