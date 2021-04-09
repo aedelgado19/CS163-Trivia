@@ -8,17 +8,27 @@
 #include <cstring>
 using namespace std;
 
-
 //task 1: constructor
 trivia::trivia(){
   head = NULL;
   
 }
 
-//task 2: deconstructor
+//task 2: destructor
 trivia::~trivia(){
-  
-  
+  category_node* current_cat = head;
+  while (current_cat != NULL){
+    category_node* next_cat = current_cat->next;
+    trivia_node* current_triv = current_cat->trivia_head;
+    while(current_triv != NULL){
+      trivia_node* next_triv = current_triv->next;
+      delete current_triv;
+      current_triv = next_triv;
+    }
+    delete current_cat;
+    current_cat = next_cat;
+  }
+  head = NULL;
 }
 
 //task 3: add a trivia question
