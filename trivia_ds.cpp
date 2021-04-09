@@ -22,8 +22,68 @@ trivia::~trivia(){
 
 //task 3: add a trivia question
 int trivia::add_trivia(char* category_name, char* question, char* answer){
-  
-  return 0;
+  bool exists = false; //flag used to see if category exists or not
+  category_node* current_cat = head;
+  trivia_node* current_triv = NULL;
+
+  if(head == NULL){ //if head is null, set head to the new category
+    category_node* new_category = new category_node();
+    head = new_category;
+    strcpy(new_category->category_name, category_name);
+    new_category->next = NULL;
+    //create a new trivia node and add data
+    trivia_node* new_trivia = new trivia_node(); 
+    new_category->trivia_head = new_trivia; //link up category node to trivia node
+    strcpy(new_trivia->question, question);
+    strcpy(new_trivia->answer, answer);
+    new_trivia->next = NULL;
+    new_trivia->is_used = false;
+    return 1; //success!
+  }
+  // if the head is NOT null, there are 2 cases:
+  // 1) the category exists already (traverse categories, find match, add trivia)
+  // 2) the category does not exist (traverse categories, make new category, add trivia)
+  else { 
+    //first traverse list to see if category already exists
+    while(current_cat->next != NULL){
+      exists = true;
+      current_cat = current_cat->next;
+      if(strcmp(current_cat->category_name, category_name) == 0){ //CASE 1: found a match
+	cout << "found a matching category: " << current_cat->category_name << endl;
+	//traverse trivia nodes to add to end
+	current_triv = current_cat->trivia_head;
+	while(current_triv->next != NULL){
+	  current_triv = current_triv->next;
+	}
+	//out of while loop, found end of trivia nodes
+	trivia_node* new_trivia = new trivia_node(); //make a new trivia node and chain it
+	current_triv->next = new_trivia;
+	strcpy(new_trivia->question, question);
+	strcpy(new_trivia->answer, answer);
+	new_trivia->next = NULL;
+	new_trivia->is_used = false;
+	return 1; //success!
+      }
+    }
+    if(exists == false){ //CASE 2 (did not find a matching category in the traversal)
+      //traverse categories to find end of list
+      while(current_cat->next != NULL){
+	current_cat = current_cat->next;
+      }
+      category_node* new_category = new category_node(); //make a new category
+      current_cat->next = new_category; //link up chain
+      strcpy(new_category->category_name, category_name);
+      new_category->next = NULL;
+      trivia_node* new_trivia = new trivia_node(); //make new trivia node
+      new_category->trivia_head = new_trivia; //attach it to its category
+      strcpy(new_trivia->question, question); //fill it with the given data
+      strcpy(new_trivia->answer, answer);
+      new_trivia->next = NULL;
+      new_trivia->is_used = false;
+      return 1; //success!
+    }
+  }
+  return 0; //function failure
 }
 
 //task 4: display questions from a particular category                

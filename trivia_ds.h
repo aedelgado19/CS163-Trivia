@@ -5,25 +5,21 @@
  */
 #include <iostream>
 
-//trivia is the data for the trivia_node
-struct trivia_data {
+//a trivia node points to another trivia node of the SAME category
+struct trivia_node {
+  trivia_node* next;
   char* question;
   char* answer;
   bool is_used;
-};
 
-//a trivia node points to another trivia node of the SAME category
-struct trivia_node {
-  trivia_data details;
-  trivia_node* next;  
 };
-
+ 
 //a category node points to another category node of a different category
 //ex: history points to art
 struct category_node {
   char* category_name;
   category_node* next;
-  trivia_node* head;
+  trivia_node* trivia_head;
 };
 
 
