@@ -8,18 +8,20 @@
 #include <cstring>
 using namespace std;
 
-void print_error_messages(int success, char function_name[]);
+void print_error_messages(int success, const char function_name[]);
 
 /* main prompts the user for input
    and passes the input to public member functions.
  */
 int main(){
   int success = 0;
-  trivia* newtrivia = new trivia();
+  trivia* new_trivia = new trivia();
   char input[20];
   char category[20];
   char question[40];
   char answer[40];
+  cout << " " << endl;
+  cout << "********************************************* " << endl;
   cout << "Welcome to Trivia Questions!" << endl;
   cout << "Type 'help' to see possible commands." << endl;
 
@@ -56,7 +58,7 @@ int main(){
       cout << "> ";
       cin.get(answer, 40);
       cin.get();
-      success = newtrivia->add_trivia(category, question, answer);
+      success = new_trivia->add_trivia(category, question, answer);
       print_error_messages(success, "add_trivia");
     }
     
@@ -93,8 +95,12 @@ int main(){
    inputs: integer success, name of function
    outputs: print error message if necessary
  */
-void print_error_messages(int success, char function_name[]){
+void print_error_messages(int success, const char function_name[]){
   if(success == 1){ //1 returns a successful function
+    if(strcmp(function_name, "add_trivia") == 0){
+      cout << "Trivia added successfully." << endl;
+      cout << " " << endl;
+    }
     return;
   } else { //anything else means failure
     cout << "Error in function: " << function_name << endl;
