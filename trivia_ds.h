@@ -35,7 +35,7 @@ class trivia {
   int add_trivia(char* category_name, char* question, char* answer);
   
   //task 4: display questions from a particular category
-  int display_category();
+  int display_category(char* category_name);
 
   //task 5: display ALL questions
   int display_all();

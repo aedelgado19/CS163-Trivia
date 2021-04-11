@@ -111,9 +111,38 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
 }
 
 /* task 4: display questions from a particular category */
-int trivia::display_category(){
+int trivia::display_category(char* category_name){
+  category_node* current = head;
+  trivia_node* current_triv = NULL;
+  int question_count = 1;
+  bool found = false;
 
-  return 0;
+  //check head first (if it is the only node, the following while loop won't fire)
+  //so we check it here
+  if(strcmp(current->category_name, category_name) == 0){ //found a match
+    current_triv = current->trivia_head;
+    found = true;
+  }
+  while(current->next != NULL){ //traverse category nodes
+    if(strcmp(current->category_name, category_name) == 0){ //found a match
+      current_triv = current->trivia_head;
+      found = true;
+    }
+    current = current->next;
+  }
+  if(found == false){
+    return 1; //function still successful, just didn't find a matching category
+  } else {
+    cout << "Trivia questions for category: " << category_name << endl;
+    cout << "current triv: " << current_triv->question << endl;
+    while(current_triv->next != NULL){ //traverse the trivia list
+      cout << "Question #" << question_count << ": " << current_triv->question << endl;
+      cout << "Answer for question " << question_count << ": " << current_triv->answer << endl;
+      current_triv = current_triv->next;
+      return 1;
+    }
+  }
+  return 0; //function failure
 }
 
 /* task 5: display ALL questions */            
