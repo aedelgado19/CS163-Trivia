@@ -64,12 +64,13 @@ int main(){
     
     if(strcmp(input, "dcat") == 0){
       cout << "Enter the name of the category you would like to display. " << endl;
-      cout << "< ";
+      cout << "> ";
       cin.get(category, 20);
       cin.get();
       success = new_trivia->display_category(category);
       print_error_messages(success, "display_category");
     }
+
 
     if(strcmp(input, "dall") == 0){
 
