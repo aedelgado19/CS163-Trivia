@@ -61,7 +61,7 @@ int main(){
       success = new_trivia->add_trivia(category, question, answer);
       print_error_messages(success, "add_trivia");
     }
-    
+    //prompt user for the name of the category and call display_category function
     if(strcmp(input, "dcat") == 0){
       cout << "Enter the name of the category you would like to display. " << endl;
       cout << "> ";
@@ -71,9 +71,10 @@ int main(){
       print_error_messages(success, "display_category");
     }
 
-
+    //call display_all function
     if(strcmp(input, "dall") == 0){
-
+      success = new_trivia->display_all();
+      print_error_messages(success, "display_all");
     }
 
     if(strcmp(input, "rm") == 0){

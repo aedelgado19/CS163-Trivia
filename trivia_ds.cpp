@@ -142,7 +142,7 @@ int trivia::display_category(char* category_name){
   category_node* current = head;
   trivia_node* current_triv = NULL;
   int question_count = 1;
-  bool found = false;
+  bool found = false;  
 
   //check head first (if the head is the only node, the following while loop won't fire)
   //so we check it here
@@ -185,8 +185,64 @@ int trivia::display_category(char* category_name){
 
 /* task 5: display ALL questions */            
 int trivia::display_all(){
+  category_node* current = head;
+  trivia_node* cur = NULL;
 
-  return 0;
+  //test
+  int t = 1;
+  cout << "TESTING: " << endl;
+  while(current->next != NULL){
+    cout << "category " << t << ": " << current->category_name << endl;
+    cout << current->category_name << "'s next is " << current->next->category_name << endl;
+    current = current->next;
+    t++;
+  }
+  cout << "category " << t << ": " << current->category_name << endl;
+
+
+  //test
+
+  
+  if(head == NULL){
+    return 1; //function still successful, there's just nothing to display
+  }
+  if(head != NULL && head->next == NULL){ //print out head if it is the only category node
+    cout << "1 Trivia questions for category " << head->category_name << ": " << endl;
+    cur = head->trivia_head;
+    while(cur->next != NULL){
+      cout << "     Question: " << head->trivia_head->question << endl;
+      cout << "     Answer: " << head->trivia_head->answer << endl;
+      cur = cur->next;
+    }
+    return 1;
+  }
+  //the following while loop knows that head exists and it is not the only node
+  while(current->next != NULL){
+    cout << "2 Trivia questions for category " << current->category_name << ": " << endl;
+    cur = current->trivia_head;
+    while(cur->next != NULL){
+      cout << "     Question: " << cur->question << endl;
+      cout << "     Answer: " << cur->answer << endl;
+      cur = cur->next;
+    }
+    //print out the last trivia node
+    cout << "     Question: " << cur->question << endl;
+    cout << "     Answer: " << cur->answer << endl;
+    current = current->next;
+    cout << "updating current category. current is now " << current->category_name << endl;
+  }
+  //print out the last category node
+  cout << "3 Trivia questions for category " << current->category_name << ": " << endl;
+  cur = current->trivia_head;
+  while(cur->next != NULL){ //traverse trivia nodes
+    cout << "     Question: " << cur->question << endl;
+    cout << "     Answer: " << cur->answer << endl;
+    cur = cur->next;
+  }
+  //print out the last trivia node
+  cout << "     Question: " << cur->question << endl;
+  cout << "     Answer: " << cur->answer << endl;
+  return 1;
 }
 
 /* task 6: remove a category of questions */
