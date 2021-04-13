@@ -76,9 +76,13 @@ int main(){
       success = new_trivia->display_all();
       print_error_messages(success, "display_all");
     }
-
+    
     if(strcmp(input, "rm") == 0){
-
+      cout << "Enter the name of the category you would like to remove" << endl;
+      cin.get(category, 20);
+      cin.get();
+      success = new_trivia->remove_category(category);
+      print_error_messages(success, "remove_category");
     }
 
     if(strcmp(input, "select") == 0){
@@ -107,8 +111,15 @@ void print_error_messages(int success, const char function_name[]){
       cout << "Trivia added successfully." << endl;
       cout << " " << endl;
     }
+    if(strcmp(function_name, "remove_category") == 0){
+      cout << "Category removed successfully." << endl;
+      cout << " " << endl;
+    }
     return;
-  } else { //anything else means failure
+  } else if(success == 0){ //0 means failure
     cout << "Error in function: " << function_name << endl;
+  } else { //the only other int a function would return is a 2
+    //this could come from in remove_category and display_category
+    cout << "No category was found with that name." << endl;
   }
 }

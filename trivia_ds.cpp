@@ -124,7 +124,10 @@ int trivia::display_category(char* category_name){
   category_node* current = head;
   trivia_node* current_triv = NULL;
   int question_count = 1;
-  bool found = false;  
+  bool found = false;
+  if(head == NULL){
+    return 1; //still successful, just an empty list (doesn't mean failure)
+  }
 
   //check head first (if the head is the only node, the following while loop won't fire)
   //so we check it here
@@ -147,19 +150,18 @@ int trivia::display_category(char* category_name){
   }
   //if you did not find a match...
   if(found == false){
-    std::cout << "No categories were found matching that name." << std::endl;
-    return 1; //function still successful, just didn't find a matching category
+    return 2; //function still successful, just didn't find a matching category
   } else { //did find a match, so print out all questions and their answers
-    std::cout << "Trivia questions for category: " << category_name << std::endl;
+    std::cout << "     Trivia questions for category: " << category_name << std::endl;
     while(current_triv->next != NULL){ //traverse the trivia list
-      std::cout << "Question #" << question_count << ": " << current_triv->question << std::endl;
-      std::cout << "Answer for question " << question_count << ": " << current_triv->answer << std::endl;
+      std::cout << "     Question #" << question_count << ": " << current_triv->question << std::endl;
+      std::cout << "     Answer for question " << question_count << ": " << current_triv->answer << std::endl;
       current_triv = current_triv->next;
       question_count++;
     }
     //get the last node too (while loop above stops at second to last node)
-    std::cout << "Question #" << question_count << ": " << current_triv->question << std::endl;
-    std::cout << "Answer for question " << question_count << ": " << current_triv->answer << std::endl;
+    std::cout << "     Question #" << question_count << ": " << current_triv->question << std::endl;
+    std::cout << "     Answer for question " << question_count << ": " << current_triv->answer << std::endl;
     return 1; //success!
   }
   return 0; //function failure
@@ -186,6 +188,14 @@ int trivia::display_all(){
       }
       cur = cur->next;
     }
+    //print out the last question
+    std::cout << "     Question: " << cur->question << std::endl;
+    std::cout << "     Answer: " << cur->answer << std::endl;
+    if(cur->is_used == true){
+      std::cout << "     Used: yes" << std::endl;
+    } else {
+      std::cout << "     Used: no" << std::endl;
+    }    
     return 1;
   }
   //the following while loop knows that head exists and it is not the only node
@@ -238,13 +248,57 @@ int trivia::display_all(){
 
 /* task 6: remove a category of questions */
 int trivia::remove_category(char* category_name){
-
-
+  category_node* current_cat = head;
+  category_node* prev_cat = NULL;
+  trivia_node* current_triv = NULL;
+  bool found = false;
   
+  //special case: check if the head is the one to delete
+  if(strcmp(head->category_name, category_name) == 0){
+    found = true;
+    current_triv = head->trivia_head;
+    while(current_triv->next != NULL){ //traverse trivia nodes
+      trivia_node* t_temp = current_triv;
+      current_triv = current_triv->next;
+      delete t_temp;
+    }
+    delete current_triv; //delete final node
+    current_cat->trivia_head = NULL; 
+    category_node* c_temp = head; //delete original head now
+    head = head->next;
+    delete c_temp;
+    return 1;
+  }
+
+  //otherwise, just traverse the list to find the match
+  while(current_cat->next != NULL){
+    prev_cat = current_cat;
+    current_cat = current_cat->next;
+    if(strcmp(current_cat->category_name, category_name) == 0){
+      found = true;
+      prev_cat->next = current_cat->next; //unlink current category
+      //traverse trivia list of the node to delete
+      current_triv = current_cat->trivia_head;
+      while(current_triv->next != NULL){
+	trivia_node* t_temp = current_triv;
+	current_triv = current_triv->next;
+	delete t_temp;
+      }
+      //delete the last trivia node too
+      delete current_triv;
+      current_cat->trivia_head = NULL;
+      //now delete the category
+      delete current_cat;
+      return 1;
+    }
+  }
+  if(found == false){ //if the user tries to remove a nonexistent node
+    return 2; //special case, didn't find anything
+  }  
   return 0;
 }
 
-/*task 7: select a trivia question */                          
+/* task 7: select a trivia question */                          
 int trivia::select_question(char* category_name){
   //make sure to call display_category
 
