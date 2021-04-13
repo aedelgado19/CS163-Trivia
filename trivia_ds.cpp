@@ -46,15 +46,22 @@ trivia::~trivia(){
 int trivia::add_trivia(char* category_name, char* question, char* answer){
   category_node* current_cat = head;
   trivia_node* current_triv = NULL;
+
+  //make new category node
   category_node* new_category = new category_node(); //make a new category
+  new_category->category_name = new char[strlen(category_name) + 1];
+  
   //make new trivia node
-  trivia_node* new_trivia = new trivia_node(); 
+  trivia_node* new_trivia = new trivia_node();
+  new_trivia->question = new char[strlen(question) + 1];
+  new_trivia->answer = new char[strlen(answer) + 1];
   strcpy(new_trivia->question, question);
   strcpy(new_trivia->answer, answer);
   new_trivia->next = NULL;
   new_trivia->is_used = false;
-  
-  if(head == NULL){ //if head is null, set head to the new category
+
+  //if head is null, set head to the new category (nothing currently in list)
+  if(head == NULL){ 
     head = new_category;
     strcpy(new_category->category_name, category_name);
     new_category->next = NULL;
@@ -75,6 +82,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
 	}
 	//out of while loop, found end of trivia nodes
 	current_triv->next = new_trivia;
+	return 1;
     }    
     //first traverse list to see if category already exists
     while(current_cat->next != NULL){  
@@ -94,14 +102,12 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
     //CASE 2 (did not find a matching category in the traversal)
     //first, if the head is the only existing category so far, set to head's next
     if(head->next == NULL){
-
       head->next = new_category; //link up chain
       strcpy(new_category->category_name, category_name);
       new_category->next = NULL;
       new_category->trivia_head = new_trivia;
       return 1; //success!    
     }
-    //traverse category list
     while(current_cat->next != NULL && (strcmp(current_cat->category_name, category_name) != 0)){ 
       current_cat = current_cat->next;
     }
@@ -169,41 +175,65 @@ int trivia::display_all(){
     return 1; //function still successful, there's just nothing to display
   }
   if(head != NULL && head->next == NULL){ //print out head if it is the only category node
-    cout << "1 Trivia questions for category " << head->category_name << ": " << endl;
+    cout << "Trivia questions for category " << head->category_name << ": " << endl;
     cur = head->trivia_head;
     while(cur->next != NULL){
       cout << "     Question: " << head->trivia_head->question << endl;
       cout << "     Answer: " << head->trivia_head->answer << endl;
+      if(cur->is_used == true){
+	cout << "     Used: yes" << endl;
+      } else {
+	cout << "     Used: no" << endl;
+      }
       cur = cur->next;
     }
     return 1;
   }
   //the following while loop knows that head exists and it is not the only node
   while(current->next != NULL){
-    cout << "2 Trivia questions for category " << current->category_name << ": " << endl;
+    cout << "Trivia questions for category " << current->category_name << ": " << endl;
     cur = current->trivia_head;
     while(cur->next != NULL){
       cout << "     Question: " << cur->question << endl;
       cout << "     Answer: " << cur->answer << endl;
+      if(cur->is_used == true){
+	cout << "     Used: yes" << endl;
+      } else {
+	cout << "     Used: no" << endl;
+      }
       cur = cur->next;
     }
     //print out the last trivia node
     cout << "     Question: " << cur->question << endl;
     cout << "     Answer: " << cur->answer << endl;
+    if(cur->is_used == true){
+      cout << "     Used: yes" << endl;
+    } else {
+      cout << "     Used: no" << endl;
+    }
     current = current->next;
-    cout << "updating current category. current is now " << current->category_name << endl;
   }
   //print out the last category node
-  cout << "3 Trivia questions for category " << current->category_name << ": " << endl;
+  cout << "Trivia questions for category " << current->category_name << ": " << endl;
   cur = current->trivia_head;
   while(cur->next != NULL){ //traverse trivia nodes
     cout << "     Question: " << cur->question << endl;
     cout << "     Answer: " << cur->answer << endl;
+    if(cur->is_used == true){
+      cout << "     Used: yes" << endl;
+    } else {
+      cout << "     Used: no" << endl;
+    }
     cur = cur->next;
   }
   //print out the last trivia node
   cout << "     Question: " << cur->question << endl;
   cout << "     Answer: " << cur->answer << endl;
+  if(cur->is_used == true){
+    cout << "     Used: yes" << endl;
+  } else {
+    cout << "     Used: no" << endl;
+  }
   return 1;
 }
 
