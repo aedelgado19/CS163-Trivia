@@ -6,7 +6,6 @@
 #include <iostream>
 #include "trivia_ds.h"
 #include <cstring>
-using namespace std;
 
 /* constructor for trivia node */
 trivia_node::trivia_node(){
@@ -148,19 +147,19 @@ int trivia::display_category(char* category_name){
   }
   //if you did not find a match...
   if(found == false){
-    cout << "No categories were found matching that name." << endl;
+    std::cout << "No categories were found matching that name." << std::endl;
     return 1; //function still successful, just didn't find a matching category
   } else { //did find a match, so print out all questions and their answers
-    cout << "Trivia questions for category: " << category_name << endl;
+    std::cout << "Trivia questions for category: " << category_name << std::endl;
     while(current_triv->next != NULL){ //traverse the trivia list
-      cout << "Question #" << question_count << ": " << current_triv->question << endl;
-      cout << "Answer for question " << question_count << ": " << current_triv->answer << endl;
+      std::cout << "Question #" << question_count << ": " << current_triv->question << std::endl;
+      std::cout << "Answer for question " << question_count << ": " << current_triv->answer << std::endl;
       current_triv = current_triv->next;
       question_count++;
     }
     //get the last node too (while loop above stops at second to last node)
-    cout << "Question #" << question_count << ": " << current_triv->question << endl;
-    cout << "Answer for question " << question_count << ": " << current_triv->answer << endl;
+    std::cout << "Question #" << question_count << ": " << current_triv->question << std::endl;
+    std::cout << "Answer for question " << question_count << ": " << current_triv->answer << std::endl;
     return 1; //success!
   }
   return 0; //function failure
@@ -175,15 +174,15 @@ int trivia::display_all(){
     return 1; //function still successful, there's just nothing to display
   }
   if(head != NULL && head->next == NULL){ //print out head if it is the only category node
-    cout << "Trivia questions for category " << head->category_name << ": " << endl;
+    std::cout << "Trivia questions for category " << head->category_name << ": " << std::endl;
     cur = head->trivia_head;
     while(cur->next != NULL){
-      cout << "     Question: " << head->trivia_head->question << endl;
-      cout << "     Answer: " << head->trivia_head->answer << endl;
+      std::cout << "     Question: " << head->trivia_head->question << std::endl;
+      std::cout << "     Answer: " << head->trivia_head->answer << std::endl;
       if(cur->is_used == true){
-	cout << "     Used: yes" << endl;
+	std::cout << "     Used: yes" << std::endl;
       } else {
-	cout << "     Used: no" << endl;
+	std::cout << "     Used: no" << std::endl;
       }
       cur = cur->next;
     }
@@ -191,48 +190,48 @@ int trivia::display_all(){
   }
   //the following while loop knows that head exists and it is not the only node
   while(current->next != NULL){
-    cout << "Trivia questions for category " << current->category_name << ": " << endl;
+    std::cout << "Trivia questions for category " << current->category_name << ": " << std::endl;
     cur = current->trivia_head;
     while(cur->next != NULL){
-      cout << "     Question: " << cur->question << endl;
-      cout << "     Answer: " << cur->answer << endl;
+      std::cout << "     Question: " << cur->question << std::endl;
+      std::cout << "     Answer: " << cur->answer << std::endl;
       if(cur->is_used == true){
-	cout << "     Used: yes" << endl;
+	std::cout << "     Used: yes" << std::endl;
       } else {
-	cout << "     Used: no" << endl;
+	std::cout << "     Used: no" << std::endl;
       }
       cur = cur->next;
     }
     //print out the last trivia node
-    cout << "     Question: " << cur->question << endl;
-    cout << "     Answer: " << cur->answer << endl;
+    std::cout << "     Question: " << cur->question << std::endl;
+    std::cout << "     Answer: " << cur->answer << std::endl;
     if(cur->is_used == true){
-      cout << "     Used: yes" << endl;
+      std::cout << "     Used: yes" << std::endl;
     } else {
-      cout << "     Used: no" << endl;
+      std::cout << "     Used: no" << std::endl;
     }
     current = current->next;
   }
   //print out the last category node
-  cout << "Trivia questions for category " << current->category_name << ": " << endl;
+  std::cout << "Trivia questions for category " << current->category_name << ": " << std::endl;
   cur = current->trivia_head;
   while(cur->next != NULL){ //traverse trivia nodes
-    cout << "     Question: " << cur->question << endl;
-    cout << "     Answer: " << cur->answer << endl;
+    std::cout << "     Question: " << cur->question << std::endl;
+    std::cout << "     Answer: " << cur->answer << std::endl;
     if(cur->is_used == true){
-      cout << "     Used: yes" << endl;
+      std::cout << "     Used: yes" << std::endl;
     } else {
-      cout << "     Used: no" << endl;
+      std::cout << "     Used: no" << std::endl;
     }
     cur = cur->next;
   }
   //print out the last trivia node
-  cout << "     Question: " << cur->question << endl;
-  cout << "     Answer: " << cur->answer << endl;
+  std::cout << "     Question: " << cur->question << std::endl;
+  std::cout << "     Answer: " << cur->answer << std::endl;
   if(cur->is_used == true){
-    cout << "     Used: yes" << endl;
+    std::cout << "     Used: yes" << std::endl;
   } else {
-    cout << "     Used: no" << endl;
+    std::cout << "     Used: no" << std::endl;
   }
   return 1;
 }
@@ -240,6 +239,8 @@ int trivia::display_all(){
 /* task 6: remove a category of questions */
 int trivia::remove_category(char* category_name){
 
+
+  
   return 0;
 }
 
