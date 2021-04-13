@@ -11,14 +11,11 @@ using namespace std;
 /* constructor for trivia node */
 trivia_node::trivia_node(){
   next = NULL;
-  question = new char[40];
-  answer = new char[40];
   is_used = false;
 }
 
 /* constructor for category node */
 category_node::category_node(){
-  category_name = new char[20];
   next = NULL;
   trivia_head = NULL;
 }
@@ -49,19 +46,19 @@ trivia::~trivia(){
 int trivia::add_trivia(char* category_name, char* question, char* answer){
   category_node* current_cat = head;
   trivia_node* current_triv = NULL;
+  category_node* new_category = new category_node(); //make a new category
+  //make new trivia node
+  trivia_node* new_trivia = new trivia_node(); 
+  strcpy(new_trivia->question, question);
+  strcpy(new_trivia->answer, answer);
+  new_trivia->next = NULL;
+  new_trivia->is_used = false;
   
   if(head == NULL){ //if head is null, set head to the new category
-    category_node* new_category = new category_node();
     head = new_category;
     strcpy(new_category->category_name, category_name);
     new_category->next = NULL;
-    //create a new trivia node and add data
-    trivia_node* new_trivia = new trivia_node(); 
     new_category->trivia_head = new_trivia; //link up category node to trivia node
-    strcpy(new_trivia->question, question);
-    strcpy(new_trivia->answer, answer);
-    new_trivia->next = NULL;
-    new_trivia->is_used = false;
     return 1; //success!
   }
 
@@ -77,12 +74,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
 	  current_triv = current_triv->next;
 	}
 	//out of while loop, found end of trivia nodes
-	trivia_node* new_trivia = new trivia_node(); //make a new trivia node and chain it
 	current_triv->next = new_trivia;
-	strcpy(new_trivia->question, question);
-	strcpy(new_trivia->answer, answer);
-	new_trivia->next = NULL;
-	new_trivia->is_used = false;
     }    
     //first traverse list to see if category already exists
     while(current_cat->next != NULL){  
@@ -94,12 +86,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
 	  current_triv = current_triv->next;
 	}
 	//out of while loop, found end of trivia nodes
-	trivia_node* new_trivia = new trivia_node(); //make a new trivia node and chain it
 	current_triv->next = new_trivia;
-	strcpy(new_trivia->question, question);
-	strcpy(new_trivia->answer, answer);
-	new_trivia->next = NULL;
-	new_trivia->is_used = false;
 	return 1; //success!
       }
     }
@@ -107,31 +94,21 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
     //CASE 2 (did not find a matching category in the traversal)
     //first, if the head is the only existing category so far, set to head's next
     if(head->next == NULL){
-      category_node* new_category = new category_node(); //make a new category
+
       head->next = new_category; //link up chain
       strcpy(new_category->category_name, category_name);
       new_category->next = NULL;
-      trivia_node* new_trivia = new trivia_node(); //make new trivia node
-      new_category->trivia_head = new_trivia; //attach it to its category
-      strcpy(new_trivia->question, question); //fill it with the given data
-      strcpy(new_trivia->answer, answer);
-      new_trivia->next = NULL;
-      new_trivia->is_used = false;
+      new_category->trivia_head = new_trivia;
       return 1; //success!    
     }
-    while(current_cat->next != NULL){ //traverse category list
+    //traverse category list
+    while(current_cat->next != NULL && (strcmp(current_cat->category_name, category_name) != 0)){ 
       current_cat = current_cat->next;
     }
-    category_node* new_category = new category_node(); //make a new category
     current_cat->next = new_category; //link up chain
     strcpy(new_category->category_name, category_name);
     new_category->next = NULL;
-    trivia_node* new_trivia = new trivia_node(); //make new trivia node
     new_category->trivia_head = new_trivia; //attach it to its category
-    strcpy(new_trivia->question, question); //fill it with the given data
-    strcpy(new_trivia->answer, answer);
-    new_trivia->next = NULL;
-    new_trivia->is_used = false;
     return 1; //success!    
   }
   return 0; //function failure
@@ -187,21 +164,6 @@ int trivia::display_category(char* category_name){
 int trivia::display_all(){
   category_node* current = head;
   trivia_node* cur = NULL;
-
-  //test
-  int t = 1;
-  cout << "TESTING: " << endl;
-  while(current->next != NULL){
-    cout << "category " << t << ": " << current->category_name << endl;
-    cout << current->category_name << "'s next is " << current->next->category_name << endl;
-    current = current->next;
-    t++;
-  }
-  cout << "category " << t << ": " << current->category_name << endl;
-
-
-  //test
-
   
   if(head == NULL){
     return 1; //function still successful, there's just nothing to display

@@ -90,7 +90,7 @@ int main(){
     }
   }
   cout << "Thanks for playing. Goodbye!" << endl;
-  
+  delete new_trivia;
   return 0;
 }
 
