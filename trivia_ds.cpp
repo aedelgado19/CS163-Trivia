@@ -52,6 +52,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
   //make new category node
   category_node* new_category = new category_node(); //make a new category
   new_category->category_name = new char[strlen(category_name) + 1];
+
   
   //make new trivia node
   trivia_node* new_trivia = new trivia_node();
@@ -63,7 +64,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
   new_trivia->is_used = false;
 
   //if head is null, set head to the new category (nothing currently in list)
-  if(head == NULL){ 
+  if(head == NULL){
     head = new_category;
     strcpy(new_category->category_name, category_name);
     new_category->next = NULL;
@@ -85,7 +86,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
 	}
 	//out of while loop, found end of trivia nodes
 	current_triv->next = new_trivia;
-	new_category->count += 1;
+	current_cat->count += 1;
 	return 1;
     }    
     //first traverse list to see if category already exists
@@ -99,7 +100,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
 	}
 	//out of while loop, found end of trivia nodes
 	current_triv->next = new_trivia;
-	new_category->count += 1;
+	current_cat->count += 1;
 	return 1; //success!
       }
     }
