@@ -31,7 +31,7 @@ int main(){
     cin.get(input, 20);
     cin.get();
 
-    for(int i = 0; i < strlen(input); i++){ //change input to lowercase
+    for(int i = 0; i < (int) strlen(input); i++){ //change input to lowercase
       input[i] = tolower(input[i]);
     }
     //print out all possible commands

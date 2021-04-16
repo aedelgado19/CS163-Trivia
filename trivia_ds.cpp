@@ -51,12 +51,12 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
   trivia_node* current_triv = NULL;
 
   //make question lowercase (for checking question later)
-  for(int i = 0; i < strlen(question); i++){
+  for(int i = 0; i < (int) strlen(question); i++){
     question[i] = std::tolower(question[i]);
   }
 
   //make answer lowercase (for checking too)
-  for(int j = 0; j < strlen(answer); j++){
+  for(int j = 0; j < (int) strlen(answer); j++){
     answer[j] = std::tolower(answer[j]);
   }
   
@@ -311,7 +311,7 @@ bool trivia::check_answer(char* user_answer){
   } else { //otherwise set correct_answer to the question
     correct_answer = question_asked->answer;
   }
-  for(int i = 0; i < strlen(user_answer); i++){ //convert to lowercase
+  for(int i = 0; i < (int) strlen(user_answer); i++){ //convert to lowercase
     user_answer[i] = std::tolower(user_answer[i]);
   }
   if(strcmp(correct_answer, user_answer) == 0){ //check match
