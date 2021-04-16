@@ -50,6 +50,11 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
   category_node* current_cat = head;
   trivia_node* current_triv = NULL;
 
+  //make question lowercase (for checking question later)
+  for(int i = 0; i < strlen(question); i++){
+    question[i] = std::tolower(question[i]);
+  }
+  
   //make new category node
   category_node* new_category = new category_node(); //make a new category
   new_category->category_name = new char[strlen(category_name) + 1];
@@ -187,7 +192,6 @@ int trivia::display_all(){
   }
   if(head != NULL && head->next == NULL){ //print out head if it is the only category node
     std::cout << "Trivia questions for category " << head->category_name << ": " << std::endl;
-    std::cout << "amount of nodes in this category: " << head->count << std::endl;
     cur = head->trivia_head;
     while(cur->next != NULL){
       std::cout << "     Question: " << cur->question << std::endl;
@@ -213,7 +217,6 @@ int trivia::display_all(){
   while(current->next != NULL){
     std::cout << "Trivia questions for category " << current->category_name << ": " << std::endl;
     cur = current->trivia_head;
-    std::cout << "amount of nodes in this category: " << current->count << std::endl;
     while(cur->next != NULL){
       std::cout << "     Question: " << cur->question << std::endl;
       std::cout << "     Answer: " << cur->answer << std::endl;
@@ -236,7 +239,6 @@ int trivia::display_all(){
   }
   //print out the last category node
   std::cout << "Trivia questions for category " << current->category_name << ": " << std::endl;
-  std::cout << "amount of nodes in this category: " << current->count << std::endl;
   cur = current->trivia_head;
   while(cur->next != NULL){ //traverse trivia nodes
     std::cout << "     Question: " << cur->question << std::endl;
@@ -329,15 +331,15 @@ int trivia::select_question(char* category_name){
     //out of while loop, found the randomly selected node
     std::cout << "Here is your question: " << std::endl;
     std::cout << cur->question << std::endl;
+    question_asked = cur;
     return 1;
   }
 
   //if it's not the head...
-  while(current->next != NULL){ //traverse list until you find it
-    current = current->next;
+  while(current != NULL){ //traverse list until you find it
     if(strcmp(current->category_name, category_name) == 0){ //found a match
-      int rand_num = rand() % head->count;
-      trivia_node* cur = head->trivia_head;
+      int rand_num = rand() % current->count;
+      trivia_node* cur = current->trivia_head;
       while(visited < rand_num){ //find randomly selected node
 	visited++;
 	cur = cur->next;
@@ -345,15 +347,30 @@ int trivia::select_question(char* category_name){
       //out of while loop, found the randomly selected node
       std::cout << "Here is your question: " << std::endl;
       std::cout << cur->question << std::endl;
+      question_asked = cur;
       return 1;
     }
+    current = current->next;
   }
   return 0;
 }
 
 
 /* task 8: check answer (return true if correct, false otherwise) */
-bool trivia::check_answer(char* user_question, char* user_answer){
-
-  return true;
+bool trivia::check_answer(char* user_answer){
+  char* correct_answer = NULL;
+  
+  if(question_asked == NULL){ //if the user has not typed "select"...
+    return false;
+  } else { //otherwise set correct_answer to the question
+    correct_answer = question_asked->answer;
+  }
+  for(int i = 0; i < strlen(user_answer); i++){ //convert to lowercase
+    user_answer[i] = std::tolower(user_answer[i]);
+  }
+  if(strcmp(correct_answer, user_answer) == 0){ //check match
+    question_asked->is_used = true;
+    return true;
+  }
+  return false;
 }

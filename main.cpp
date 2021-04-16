@@ -9,12 +9,14 @@
 using namespace std;
 
 void print_error_messages(int success, const char function_name[]);
+void display_correct(bool b_success);
 
 /* main prompts the user for input
    and passes the input to public member functions.
  */
 int main(){
-  int success = 0;
+  int success = 0; //boolean to store success for int return types
+  bool b_success = false; //boolean to store success for bool return types
   trivia* new_trivia = new trivia();
   char input[20];
   char category[20];
@@ -87,19 +89,20 @@ int main(){
 
     if(strcmp(input, "select") == 0){
       cout << "In this option, you will choose a category and " << endl;
-      cout << "be prompted with a question. You will then type in your response," << endl;
-      cout << "and the computer will display whether " << endl;
-      cout << "you got it right or not. Good luck! (start by typing a category)" << endl;
+      cout << "be prompted with a question. To check your answer," << endl;
+      cout << "use the 'check' command. Good luck! (Start by typing a category)" << endl;
       cin.get(category, 20);
       cin.get();
-      success = new_trivia->select_question(category);
+      b_success = new_trivia->select_question(category);
       print_error_messages(success, "select_question");
     }
-  }
-
-  if(strcmp(input, "check") == 0){
-    
-    
+    if(strcmp(input, "check") == 0){
+      cout << "Enter your answer. " << endl;
+      cin.get(answer, 40);
+      cin.get();
+      b_success = new_trivia->check_answer(answer);
+      display_correct(b_success);
+    }
   }
   cout << "Thanks for playing. Goodbye!" << endl;
   delete new_trivia;
@@ -129,5 +132,13 @@ void print_error_messages(int success, const char function_name[]){
   } else { //the only other int a function would return is a 2
     //this could come from in remove_category and display_category
     cout << "No category was found with that name." << endl;
+  }
+}
+
+void display_correct(bool b_success){
+  if(b_success == true){
+    cout << "You got it right!" << endl;
+  } else {
+    cout << "That answer wasn't right :( " << endl;
   }
 }

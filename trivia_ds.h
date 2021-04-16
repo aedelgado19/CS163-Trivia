@@ -48,7 +48,7 @@ class trivia {
   int select_question(char* category_name);
   
   //task 8: check answer (return true if correct, false otherwise)
-  bool check_answer(char* user_question, char* user_answer);
+  bool check_answer(char* user_answer);
 
  private:
   category_node* head;
