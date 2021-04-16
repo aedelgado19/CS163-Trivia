@@ -1,7 +1,6 @@
 /* Author: Allison Delgado
    Class: CS 163 Spring 2021
    main.cpp acts as a user interface to test the ADT
-
  */
 #include <iostream>
 #include "trivia_ds.h"
@@ -135,6 +134,9 @@ void print_error_messages(int success, const char function_name[]){
   }
 }
 
+/* this function displays whether or not the user typed the correct answer
+ b_success is a bool returned from check_answer(). True means it is
+ correct, and false means the answer is wrong. */
 void display_correct(bool b_success){
   if(b_success == true){
     cout << "You got it right!" << endl;

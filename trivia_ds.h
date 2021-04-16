@@ -53,5 +53,4 @@ class trivia {
  private:
   category_node* head;
   trivia_node* question_asked;
-
 };
