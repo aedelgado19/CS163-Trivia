@@ -6,6 +6,8 @@
 #include <iostream>
 #include "trivia_ds.h"
 #include <cstring>
+#include <cstdlib>
+#include <ctime>
 
 /* constructor for trivia node */
 trivia_node::trivia_node(){
@@ -17,6 +19,7 @@ trivia_node::trivia_node(){
 category_node::category_node(){
   next = NULL;
   trivia_head = NULL;
+  count = 0;
 }
 
 /* task 1: constructor */
@@ -65,6 +68,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
     strcpy(new_category->category_name, category_name);
     new_category->next = NULL;
     new_category->trivia_head = new_trivia; //link up category node to trivia node
+    new_category->count += 1;
     return 1; //success!
   }
 
@@ -81,6 +85,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
 	}
 	//out of while loop, found end of trivia nodes
 	current_triv->next = new_trivia;
+	new_category->count += 1;
 	return 1;
     }    
     //first traverse list to see if category already exists
@@ -94,6 +99,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
 	}
 	//out of while loop, found end of trivia nodes
 	current_triv->next = new_trivia;
+	new_category->count += 1;
 	return 1; //success!
       }
     }
@@ -105,6 +111,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
       strcpy(new_category->category_name, category_name);
       new_category->next = NULL;
       new_category->trivia_head = new_trivia;
+      new_category->count += 1;
       return 1; //success!    
     }
     while(current_cat->next != NULL && (strcmp(current_cat->category_name, category_name) != 0)){ 
@@ -114,6 +121,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
     strcpy(new_category->category_name, category_name);
     new_category->next = NULL;
     new_category->trivia_head = new_trivia; //attach it to its category
+    new_category->count += 1;
     return 1; //success!    
   }
   return 0; //function failure
@@ -177,10 +185,11 @@ int trivia::display_all(){
   }
   if(head != NULL && head->next == NULL){ //print out head if it is the only category node
     std::cout << "Trivia questions for category " << head->category_name << ": " << std::endl;
+    std::cout << "amount of nodes in this category: " << head->count << std::endl;
     cur = head->trivia_head;
     while(cur->next != NULL){
-      std::cout << "     Question: " << head->trivia_head->question << std::endl;
-      std::cout << "     Answer: " << head->trivia_head->answer << std::endl;
+      std::cout << "     Question: " << cur->question << std::endl;
+      std::cout << "     Answer: " << cur->answer << std::endl;
       if(cur->is_used == true){
 	std::cout << "     Used: yes" << std::endl;
       } else {
@@ -202,6 +211,7 @@ int trivia::display_all(){
   while(current->next != NULL){
     std::cout << "Trivia questions for category " << current->category_name << ": " << std::endl;
     cur = current->trivia_head;
+    std::cout << "amount of nodes in this category: " << current->count << std::endl;
     while(cur->next != NULL){
       std::cout << "     Question: " << cur->question << std::endl;
       std::cout << "     Answer: " << cur->answer << std::endl;
@@ -224,6 +234,7 @@ int trivia::display_all(){
   }
   //print out the last category node
   std::cout << "Trivia questions for category " << current->category_name << ": " << std::endl;
+  std::cout << "amount of nodes in this category: " << current->count << std::endl;
   cur = current->trivia_head;
   while(cur->next != NULL){ //traverse trivia nodes
     std::cout << "     Question: " << cur->question << std::endl;
@@ -300,7 +311,10 @@ int trivia::remove_category(char* category_name){
 
 /* task 7: select a trivia question */                          
 int trivia::select_question(char* category_name){
-  //make sure to call display_category
+  srand(time(0));
+  
+  
+  
 
   return 0;
 }

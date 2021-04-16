@@ -86,7 +86,14 @@ int main(){
     }
 
     if(strcmp(input, "select") == 0){
-
+      cout << "In this option, you will choose a category and " << endl;
+      cout << "be prompted with a question. You will then type in " << endl;
+      cout << "Your response, and the computer will display whether " << endl;
+      cout << "you got it right or not. Good luck! (start by typing a category" << endl;
+      cin.get(category, 20);
+      cin.get();
+      success = new_trivia->select_question(category);
+      print_error_messages(success, "select_question");
     }
 
     if(strcmp(input, "check") == 0){

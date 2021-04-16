@@ -22,6 +22,7 @@ struct category_node {
   char* category_name;
   category_node* next;
   trivia_node* trivia_head;
+  int count; //amount of nodes in the category
 };
 
 
