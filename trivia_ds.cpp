@@ -190,34 +190,11 @@ int trivia::display_all(){
   if(head == NULL){
     return 1; //function still successful, there's just nothing to display
   }
-  if(head != NULL && head->next == NULL){ //print out head if it is the only category node
-    std::cout << "Trivia questions for category " << head->category_name << ": " << std::endl;
-    cur = head->trivia_head;
-    while(cur->next != NULL){
-      std::cout << "     Question: " << cur->question << std::endl;
-      std::cout << "     Answer: " << cur->answer << std::endl;
-      if(cur->is_used == true){
-	std::cout << "     Used: yes" << std::endl;
-      } else {
-	std::cout << "     Used: no" << std::endl;
-      }
-      cur = cur->next;
-    }
-    //print out the last question
-    std::cout << "     Question: " << cur->question << std::endl;
-    std::cout << "     Answer: " << cur->answer << std::endl;
-    if(cur->is_used == true){
-      std::cout << "     Used: yes" << std::endl;
-    } else {
-      std::cout << "     Used: no" << std::endl;
-    }    
-    return 1;
-  }
-  //the following while loop knows that head exists and it is not the only node
-  while(current->next != NULL){
+  
+  while(current != NULL){ //traverse list
     std::cout << "Trivia questions for category " << current->category_name << ": " << std::endl;
     cur = current->trivia_head;
-    while(cur->next != NULL){
+    while(cur != NULL){
       std::cout << "     Question: " << cur->question << std::endl;
       std::cout << "     Answer: " << cur->answer << std::endl;
       if(cur->is_used == true){
@@ -227,36 +204,7 @@ int trivia::display_all(){
       }
       cur = cur->next;
     }
-    //print out the last trivia node
-    std::cout << "     Question: " << cur->question << std::endl;
-    std::cout << "     Answer: " << cur->answer << std::endl;
-    if(cur->is_used == true){
-      std::cout << "     Used: yes" << std::endl;
-    } else {
-      std::cout << "     Used: no" << std::endl;
-    }
     current = current->next;
-  }
-  //print out the last category node
-  std::cout << "Trivia questions for category " << current->category_name << ": " << std::endl;
-  cur = current->trivia_head;
-  while(cur->next != NULL){ //traverse trivia nodes
-    std::cout << "     Question: " << cur->question << std::endl;
-    std::cout << "     Answer: " << cur->answer << std::endl;
-    if(cur->is_used == true){
-      std::cout << "     Used: yes" << std::endl;
-    } else {
-      std::cout << "     Used: no" << std::endl;
-    }
-    cur = cur->next;
-  }
-  //print out the last trivia node
-  std::cout << "     Question: " << cur->question << std::endl;
-  std::cout << "     Answer: " << cur->answer << std::endl;
-  if(cur->is_used == true){
-    std::cout << "     Used: yes" << std::endl;
-  } else {
-    std::cout << "     Used: no" << std::endl;
   }
   return 1;
 }
