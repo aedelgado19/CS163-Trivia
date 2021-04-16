@@ -25,6 +25,7 @@ category_node::category_node(){
 /* task 1: constructor */
 trivia::trivia(){
   head = NULL;
+  question_asked = NULL;
 }
 
 /* task 2: destructor */
@@ -313,10 +314,40 @@ int trivia::remove_category(char* category_name){
 /* task 7: select a trivia question */                          
 int trivia::select_question(char* category_name){
   srand(time(0));
+  category_node* current = head;
+  int visited = 0; //keeps track of how many nodes you've visited
+  char input[64];
   
-  
-  
+  //check head first to see if it is the match
+  if(strcmp(head->category_name, category_name) == 0){
+    int rand_num = rand() % head->count;
+    trivia_node* cur = head->trivia_head;
+    while(visited < rand_num){ //find randomly selected node
+      visited++;
+      cur = cur->next;
+    }
+    //out of while loop, found the randomly selected node
+    std::cout << "Here is your question: " << std::endl;
+    std::cout << cur->question << std::endl;
+    return 1;
+  }
 
+  //if it's not the head...
+  while(current->next != NULL){ //traverse list until you find it
+    current = current->next;
+    if(strcmp(current->category_name, category_name) == 0){ //found a match
+      int rand_num = rand() % head->count;
+      trivia_node* cur = head->trivia_head;
+      while(visited < rand_num){ //find randomly selected node
+	visited++;
+	cur = cur->next;
+      }
+      //out of while loop, found the randomly selected node
+      std::cout << "Here is your question: " << std::endl;
+      std::cout << cur->question << std::endl;
+      return 1;
+    }
+  }
   return 0;
 }
 
