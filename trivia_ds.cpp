@@ -100,7 +100,7 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
 	return 1;
     }    
     //first traverse list to see if category already exists
-    while(current_cat != NULL){  
+    while(current_cat->next != NULL){  
       if(strcmp(current_cat->category_name, category_name) == 0){ //CASE 1: found a match	
 	//traverse trivia nodes to add to end
 	current_triv = current_cat->trivia_head;
@@ -114,24 +114,22 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
       }
       current_cat = current_cat->next;
     }
+    //outside of while loop, found last and check it
+    if(strcmp(current_cat->category_name, category_name) == 0){ 	
+      //traverse trivia nodes to add to end
+      current_triv = current_cat->trivia_head;
+      while(current_triv->next != NULL){
+	current_triv = current_triv->next;
+      }
+      //out of while loop, found end of trivia nodes
+      current_triv->next = new_trivia;
+      current_cat->count += 1;
+      return 1; //success!
+    }
 
-    //CASE 2 (did not find a matching category in the traversal)
-    //first, if the head is the only existing category so far, set to head's next
-    if(head->next == NULL){
-      //make new category node
-      category_node* new_category = new category_node(); //make a new category
-      new_category->category_name = new char[strlen(category_name) + 1];
-      head->next = new_category; //link up chain
-      strcpy(new_category->category_name, category_name);
-      new_category->next = NULL;
-      new_category->trivia_head = new_trivia;
-      new_category->count += 1;
-      return 1; //success!    
-    }
-    //while next isn't null and it is not a matching name...
-    while(current_cat->next != NULL && (strcmp(current_cat->category_name, category_name) != 0)){ 
-      current_cat = current_cat->next;
-    }
+    //CASE 2: at this point, add a new category
+    category_node* new_category = new category_node(); //make a new category
+    new_category->category_name = new char[strlen(category_name) + 1];
     current_cat->next = new_category; //link up chain
     strcpy(new_category->category_name, category_name);
     new_category->next = NULL;
@@ -283,22 +281,25 @@ int trivia::select_question(char* category_name){
     //out of while loop, found the randomly selected node
     if(cur->is_used == true){ //if you find a used node...
       trivia_node* hold = cur;
-      while(cur != NULL){ //traverse list until you find a new unused
-	while(cur->is_used == true){ //if it's used, traverse
-	  if(cur->next != NULL){
-	    cur = cur->next;
-	  } else { //next IS null
-	    cur = current->trivia_head; //go back to start
-	  }
-	  if(cur == hold){ //there is no unused questions, so just choose one
-	    std::cout << "Here is your question: " << std::endl; //print it out
-	    std::cout << cur->question << std::endl;
-	    question_asked = cur;
-	    cur->is_used = true;
-	    return 1; 
-	  }
+      while(cur != NULL && cur->is_used == true){ //traverse list until you find a new unused
+	if(cur->next != NULL){
+	  cur = cur->next;
+	} else { //next IS null
+	  cur = current->trivia_head; //go back to start
+	}
+	if(cur == hold){ //there is no unused questions, so just choose one
+	  std::cout << "Here is your question: " << std::endl; //print it out
+	  std::cout << cur->question << std::endl;
+	  question_asked = cur;
+	  cur->is_used = true;
+	  return 1; 
 	}
       }
+      std::cout << "Here is your question: " << std::endl; //print it out
+      std::cout << cur->question << std::endl;
+      question_asked = cur;
+      cur->is_used = true;
+      return 1; 
     } else {
       std::cout << "Here is your question: " << std::endl; //print it out
       std::cout << cur->question << std::endl;
@@ -318,25 +319,27 @@ int trivia::select_question(char* category_name){
 	cur = cur->next;
       }
       //out of while loop, found the randomly selected node
-
       if(cur->is_used == true){ //if you find a used node...
 	trivia_node* hold = cur;
-	while(cur != NULL){ //traverse list until you find a new unused
-	  while(cur->is_used == true){ //if it's used, traverse
-	    if(cur->next != NULL){
-	      cur = cur->next;
-	    } else { //next IS null
-	      cur = current->trivia_head; //go back to start
-	    }
-	    if(cur == hold){ //there is no unused questions, so just choose one
-	      std::cout << "Here is your question: " << std::endl; //print it out
-	      std::cout << cur->question << std::endl;
-	      question_asked = cur;
-	      cur->is_used = true;
-	      return 1; 
-	    }
+	while(cur != NULL && cur->is_used == true){ //traverse list until you find a new unused
+	  if(cur->next != NULL){
+	    cur = cur->next;
+	  } else { //next IS null
+	    cur = current->trivia_head; //go back to start
+	  }
+	  if(cur == hold){ //there is no unused questions, so just choose one
+	    std::cout << "Here is your question: " << std::endl; //print it out
+	    std::cout << cur->question << std::endl;
+	    question_asked = cur;
+	    cur->is_used = true;
+	    return 1; 
 	  }
 	}
+	std::cout << "Here is your question: " << std::endl; //print it out
+	std::cout << cur->question << std::endl;
+	question_asked = cur;
+	cur->is_used = true;
+	return 1; 
       } else {
 	std::cout << "Here is your question: " << std::endl; //print it out
 	std::cout << cur->question << std::endl;
