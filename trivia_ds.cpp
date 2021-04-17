@@ -1,5 +1,6 @@
 /* Author: Allison Delgado
    Class: CS 163 Spring 2021
+   Last updated: April 16, 2021
    trivia_ds.cpp contains member functions for the class trivia
  */
 
@@ -51,18 +52,14 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
   trivia_node* current_triv = NULL;
 
   //make question lowercase (for checking question later)
-  for(int i = 0; i < (int) strlen(question); i++){
+  for(int i = 0; i < (int) strlen(question); ++i){
     question[i] = std::tolower(question[i]);
   }
 
   //make answer lowercase (for checking too)
-  for(int j = 0; j < (int) strlen(answer); j++){
+  for(int j = 0; j < (int) strlen(answer); ++j){
     answer[j] = std::tolower(answer[j]);
-  }
-  
-  //make new category node
-  category_node* new_category = new category_node(); //make a new category
-  new_category->category_name = new char[strlen(category_name) + 1];
+  }  
   
   //make new trivia node
   trivia_node* new_trivia = new trivia_node();
@@ -75,6 +72,9 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
 
   //if head is null, set head to the new category (nothing currently in list)
   if(head == NULL){
+    //make new category node
+    category_node* new_category = new category_node(); //make a new category
+    new_category->category_name = new char[strlen(category_name) + 1];
     head = new_category;
     strcpy(new_category->category_name, category_name);
     new_category->next = NULL;
@@ -118,6 +118,9 @@ int trivia::add_trivia(char* category_name, char* question, char* answer){
     //CASE 2 (did not find a matching category in the traversal)
     //first, if the head is the only existing category so far, set to head's next
     if(head->next == NULL){
+      //make new category node
+      category_node* new_category = new category_node(); //make a new category
+      new_category->category_name = new char[strlen(category_name) + 1];
       head->next = new_category; //link up chain
       strcpy(new_category->category_name, category_name);
       new_category->next = NULL;
@@ -174,7 +177,7 @@ int trivia::display_category(char* category_name){
       std::cout << "     Question #" << question_count << ": " << current_triv->question << std::endl;
       std::cout << "     Answer for question " << question_count << ": " << current_triv->answer << std::endl;
       current_triv = current_triv->next;
-      question_count++;
+      ++question_count;
     }
     return 1; //success!
   }
@@ -263,40 +266,85 @@ int trivia::remove_category(char* category_name){
 /* task 7: select a trivia question */                          
 int trivia::select_question(char* category_name){
   srand(time(0));
+  int rand_num = 0;
   category_node* current = head;
   int visited = 0; //keeps track of how many nodes you've visited
   
   //check head first to see if it is the match
   if(strcmp(head->category_name, category_name) == 0){
-    int rand_num = rand() % head->count;
     trivia_node* cur = head->trivia_head;
-    while(visited < rand_num){ //find randomly selected node
+    rand_num = rand() % current->count;
+
+    //find randomly selected node
+    while(visited < rand_num){ 
       visited++;
       cur = cur->next;
     }
     //out of while loop, found the randomly selected node
-    std::cout << "Here is your question: " << std::endl;
-    std::cout << cur->question << std::endl;
-    question_asked = cur;
-    return 1;
+    if(cur->is_used == true){ //if you find a used node...
+      trivia_node* hold = cur;
+      while(cur != NULL){ //traverse list until you find a new unused
+	while(cur->is_used == true){ //if it's used, traverse
+	  if(cur->next != NULL){
+	    cur = cur->next;
+	  } else { //next IS null
+	    cur = current->trivia_head; //go back to start
+	  }
+	  if(cur == hold){ //there is no unused questions, so just choose one
+	    std::cout << "Here is your question: " << std::endl; //print it out
+	    std::cout << cur->question << std::endl;
+	    question_asked = cur;
+	    cur->is_used = true;
+	    return 1; 
+	  }
+	}
+      }
+    } else {
+      std::cout << "Here is your question: " << std::endl; //print it out
+      std::cout << cur->question << std::endl;
+      question_asked = cur;
+      cur->is_used = true;
+      return 1; 
+    }
   }
 
   //if it's not the head...
   while(current != NULL){ //traverse list until you find it
     if(strcmp(current->category_name, category_name) == 0){ //found a match
-      int rand_num = rand() % current->count;
+      rand_num = rand() % current->count;
       trivia_node* cur = current->trivia_head;
       while(visited < rand_num){ //find randomly selected node
 	visited++;
 	cur = cur->next;
       }
       //out of while loop, found the randomly selected node
-      std::cout << "Here is your question: " << std::endl;
-      std::cout << cur->question << std::endl;
-      question_asked = cur;
-      return 1;
+
+      if(cur->is_used == true){ //if you find a used node...
+	trivia_node* hold = cur;
+	while(cur != NULL){ //traverse list until you find a new unused
+	  while(cur->is_used == true){ //if it's used, traverse
+	    if(cur->next != NULL){
+	      cur = cur->next;
+	    } else { //next IS null
+	      cur = current->trivia_head; //go back to start
+	    }
+	    if(cur == hold){ //there is no unused questions, so just choose one
+	      std::cout << "Here is your question: " << std::endl; //print it out
+	      std::cout << cur->question << std::endl;
+	      question_asked = cur;
+	      cur->is_used = true;
+	      return 1; 
+	    }
+	  }
+	}
+      } else {
+	std::cout << "Here is your question: " << std::endl; //print it out
+	std::cout << cur->question << std::endl;
+	question_asked = cur;
+	cur->is_used = true;
+	return 1; 
+      }
     }
-    current = current->next;
   }
   return 0;
 }
@@ -311,7 +359,7 @@ bool trivia::check_answer(char* user_answer){
   } else { //otherwise set correct_answer to the question
     correct_answer = question_asked->answer;
   }
-  for(int i = 0; i < (int) strlen(user_answer); i++){ //convert to lowercase
+  for(int i = 0; i < (int) strlen(user_answer); ++i){ //convert to lowercase
     user_answer[i] = std::tolower(user_answer[i]);
   }
   if(strcmp(correct_answer, user_answer) == 0){ //check match

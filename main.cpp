@@ -1,6 +1,7 @@
 /* Author: Allison Delgado
    Class: CS 163 Spring 2021
    main.cpp acts as a user interface to test the ADT
+   Last updated: April 16, 2021
  */
 #include <iostream>
 #include "trivia_ds.h"
@@ -31,7 +32,7 @@ int main(){
     cin.get(input, 20);
     cin.get();
 
-    for(int i = 0; i < (int) strlen(input); i++){ //change input to lowercase
+    for(int i = 0; i < (int) strlen(input); ++i){ //change input to lowercase
       input[i] = tolower(input[i]);
     }
     //print out all possible commands
