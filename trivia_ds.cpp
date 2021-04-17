@@ -348,6 +348,7 @@ int trivia::select_question(char* category_name){
 	return 1; 
       }
     }
+    current = current->next;
   }
   return 0;
 }
